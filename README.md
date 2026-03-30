@@ -1,217 +1,246 @@
-# 📉 Principal Component Analysis (PCA): From Linear Algebra to Dimensionality Reduction
+# 📩 Email / SMS Spam Classifier (End-to-End ML + Streamlit Deployment)
 
-## 🔍 Overview
+A complete machine learning project that builds and deploys a **spam classification system** for email/SMS messages using NLP, TF-IDF, and a trained ML model.
 
-This project provides a **deep, mathematical and practical exploration of Principal Component Analysis (PCA)**, covering:
+This project demonstrates the **full ML lifecycle**, from data preprocessing to real-time deployment via Streamlit.
 
-* Step-by-step manual implementation
-* Eigen decomposition and covariance analysis
-* Singular Value Decomposition (SVD)
-* Practical dimensionality reduction using sklearn
+---
 
-The goal is to move from:
+## 🚀 Project Overview
 
-> **“using PCA” → “understanding the linear algebra that powers dimensionality reduction”**
+This system classifies messages as **Spam or Not Spam** using:
+
+- NLP preprocessing techniques  
+- TF-IDF feature extraction  
+- Machine learning classification  
+- Streamlit-based interactive deployment  
+
+The workflow follows:
+
+> **Data → Preprocessing → Feature Engineering → Model Training → Serialization → Deployment**
+
+---
+
+## 🌐 Live Application
+
+👉 **Deployed App:**  
+https://jcrshgvw7rwfzwhtvbrzfo.streamlit.app/
 
 ---
 
 ## 🎯 Objectives
 
-* Build PCA **from first principles**
-* Understand:
-
-  * covariance matrix
-  * eigenvalues and eigenvectors
-* Connect PCA with **Singular Value Decomposition (SVD)**
-* Apply PCA for:
-
-  * dimensionality reduction
-  * feature transformation
+- Build a robust text classification pipeline  
+- Apply NLP preprocessing techniques  
+- Train and evaluate a spam detection model  
+- Deploy a real-time prediction system using Streamlit  
 
 ---
 
 ## 🧠 Core Concepts Covered
 
-* Mean centering of data
-* Covariance matrix
-* Eigen decomposition
-* Principal components
-* Explained variance
-* Singular Value Decomposition (SVD)
-* Dimensionality reduction
+- Text preprocessing:
+  - lowercasing  
+  - tokenization (NLTK)  
+  - stopword removal  
+  - stemming (Porter Stemmer)  
+
+- Feature Engineering:
+  - TF-IDF vectorization  
+
+- Machine Learning:
+  - text classification model  
+
+- Deployment:
+  - model serialization (`.pkl`)  
+  - Streamlit-based UI  
 
 ---
 
-## 🏗️ Project Structure
+## 📂 Project Structure
 
-```bash id="q8o7px"
-PCA/
+```
+EMAIL_SPAM_CLASSIFIER/
 │
-├── pca_step_by_step.ipynb              # Manual PCA implementation
-├── pca_variants.ipynb                 # PCA using sklearn + experiments
-├── singular_value_decomposition.ipynb # SVD foundation of PCA
+├── app.py                      # Streamlit web application
+├── sms_spam_detection.ipynb    # Model training pipeline
 │
-├── README.md
+├── spam.csv                    # Dataset
+│
+├── model.pkl                   # Trained model
+├── vectorizer.pkl              # TF-IDF vectorizer
+│
 ├── requirements.txt
 ├── LICENSE
+├── README.md
 └── .gitignore
 ```
 
 ---
 
-## ⚙️ Implementation Breakdown
+## ⚙️ How It Works
 
-### 1️⃣ PCA from Scratch (Step-by-Step)
+### 1️⃣ Text Preprocessing
 
-* Steps implemented manually:
+- Tokenization  
+- Removal of punctuation and stopwords  
+- Stemming  
 
-  1. Mean centering
-  2. Covariance matrix computation
-  3. Eigenvalue and eigenvector calculation
-  4. Sorting components by variance
-  5. Projection onto principal components
-
-📌 **Key Insight:**
-
-* Principal components represent directions of maximum variance
+```python
+transform_text(text)
+```
 
 ---
 
-### 2️⃣ PCA Variants (Practical Usage)
+### 2️⃣ Feature Transformation
 
-* Uses sklearn PCA
-* Demonstrates:
+```python
+vector_input = tfidf.transform([processed_text])
+```
 
-  * dimensionality reduction
-  * explained variance ratio
-  * effect of number of components
-
-📌 **Key Insight:**
-
-* PCA reduces dimensionality while preserving maximum information
+- Converts text into numerical vectors  
+- Uses pre-trained TF-IDF vocabulary  
 
 ---
 
-### 3️⃣ Singular Value Decomposition (SVD)
+### 3️⃣ Prediction
 
-* Implements SVD:
-  [
-  X = U \Sigma V^T
-  ]
+```python
+result = model.predict(vector_input)
+```
 
-* Connects SVD to PCA
-
-📌 **Key Insight:**
-
-* PCA can be computed efficiently using SVD
-* SVD is numerically more stable
+- Output:
+  - `1 → Spam`  
+  - `0 → Not Spam`  
 
 ---
 
-## 📊 Key Observations
+### 4️⃣ Streamlit Interface
 
-### 📉 Dimensionality Reduction
-
-* Reduces feature space while retaining most variance
-* Helps with:
-
-  * visualization
-  * noise reduction
-  * faster computation
+- User inputs message  
+- Model returns prediction instantly  
 
 ---
 
-### 📈 Explained Variance
+## 📊 Model Performance
 
-* First few components capture majority of information
-* Remaining components contribute minimal variance
+*(Based on notebook evaluation)*
+
+- Accuracy: ~97%  
+- Precision: ~92%  
+
+**Focus:** High precision to reduce false spam classification  
 
 ---
 
-### ⚠️ Information Loss
+## 🛠 Installation
 
-* Reducing dimensions leads to:
+### Clone repository
 
-  * loss of some information
-* Trade-off between:
+```bash
+git clone https://github.com/RudrTyagi1135/email_spam_classifier.git
+cd email_spam_classifier
+```
 
-  * compression
-  * accuracy
+### Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## ▶️ Run the Project
+
+```bash
+streamlit run app.py
+```
+
+---
+
+## ⚠️ Important Notes
+
+### Model Consistency
+
+- `model.pkl` and `vectorizer.pkl` must come from the same training run  
+- Mismatch → feature dimension errors  
+
+---
+
+### Preprocessing Consistency
+
+- Same preprocessing must be used in:
+  - training notebook  
+  - deployment (`app.py`)  
+
+---
+
+### NLTK Dependencies
+
+```python
+nltk.download('punkt')
+nltk.download('stopwords')
+```
 
 ---
 
 ## ⚠️ Limitations
 
-* No pipeline integration with ML models
-* No visualization of variance explained curve (scree plot)
-* No comparison with other dimensionality reduction methods
-* No real-world dataset evaluation
-* Assumes linear relationships
+- No cross-validation  
+- No model comparison  
+- Separate vectorizer and model (risk of mismatch)  
+- No pipeline abstraction  
 
 ---
 
-## 🚀 Future Improvements (High-Impact)
+## 🔮 Future Improvements
 
-To elevate this into a **production-grade ML preprocessing component**:
-
-* Add **Scree Plot (explained variance curve)**
-* Integrate PCA into:
-
-  * classification pipeline
-  * regression pipeline
-* Compare with:
-
-  * t-SNE
-  * UMAP
-* Apply on **real-world high-dimensional dataset**
-* Add **feature scaling before PCA (critical)**
-
----
-
-## 🧪 How to Run
-
-```bash id="j3n8yt"
-# Clone repository
-git clone https://github.com/RudrTyagi1135/PCA.git
-
-# Navigate to project
-cd PCA
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run notebooks
-jupyter notebook
-```
+- Use **Pipeline (TF-IDF + Model)** for safer deployment  
+- Add evaluation metrics:
+  - F1 Score  
+  - ROC-AUC  
+- Compare models:
+  - Naive Bayes  
+  - Logistic Regression  
+  - SVM  
+- Improve NLP:
+  - Lemmatization  
+  - N-grams  
+- Deploy using:
+  - Docker  
+  - FastAPI backend  
+  - AWS / GCP  
 
 ---
 
-## 📌 Key Takeaways
+## 📊 Outputs
 
-* PCA is a **linear algebra-driven technique** for dimensionality reduction
-
-* Understanding eigen decomposition and SVD is essential for:
-
-  * efficient computation
-  * numerical stability
-
-* PCA is widely used in:
-
-  * preprocessing pipelines
-  * feature engineering
-  * visualization
+- Spam classification predictions  
+- Real-time inference via web interface  
+- Serialized ML artifacts for deployment  
 
 ---
 
-## 👨‍💻 Author
+## 🎯 What This Project Demonstrates
+
+- End-to-end ML system design  
+- NLP preprocessing and feature engineering  
+- Model deployment using Streamlit  
+- Handling training vs inference consistency  
+
+---
+
+## 📌 Next Step
+
+- Convert into production ML pipeline  
+- Add model monitoring and logging  
+- Build API-based inference system  
+- Integrate into MLOps workflow  
+
+---
+
+## 👤 Author
 
 **Rudra Tyagi**
-Aspiring ML Systems / MLOps Engineer
 
-* GitHub: https://github.com/RudrTyagi1135
-
----
-
-## ⭐ Support
-
-If this project helped you understand PCA deeply, consider starring ⭐ the repository.
+ML Systems | MLOps | AI Infrastructure
