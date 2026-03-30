@@ -36,8 +36,13 @@ def transform_text(text):
 
     return " ".join(y)
 
-tfidf = pickle.load(open('vectorizer.pkl','rb'))
-model = pickle.load(open('model.pkl','rb'))
+@st.cache_resource
+def load_model():
+    tfidf = pickle.load(open('vectorizer.pkl','rb'))
+    model = pickle.load(open('model.pkl','rb'))
+    return tfidf, model
+
+tfidf, model = load_model()
 
 st.title("Email/SMS Spam Classifier")
 
@@ -56,3 +61,4 @@ if st.button('Predict'):
         st.header("Spam")
     else:
         st.header("Not Spam")
+
